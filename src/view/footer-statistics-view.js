@@ -1,11 +1,6 @@
 import { createElement } from '../render.js';
 
-const createFooterStatisticsTemplate = () =>
-  `
-    <section class="footer__statistics">
-      <p>130 291 movies inside</p>
-    </section>
-  `;
+const createFooterStatisticsTemplate = () => '<p>130 291 movies inside</p>';
 
 export default class FooterStatisticsView {
   getTemplate() {
