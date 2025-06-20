@@ -8,6 +8,9 @@ import CommentsModel from './model/comments-model.js';
 
 import { render } from './render.js';
 
+//import { generateFilms } from './mock/film';
+//import { generateComments } from './mock/comment';
+
 const bodyElement = document.querySelector('body');
 const siteHeaderElement = bodyElement.querySelector('.header');
 const siteMainElement = bodyElement.querySelector('.main');
@@ -17,10 +20,16 @@ const siteFooterStatisticsElement = siteFooterElement.querySelector('.footer__st
 const filmsModel = new FilmsModel();
 const commentsModel = new CommentsModel(filmsModel);
 
-const filmsPresenter = new FilmsPresenter();
+const filmsPresenter = new FilmsPresenter(siteMainElement, filmsModel, commentsModel);
 
 render(new HeaderProfileView(), siteHeaderElement);
 render(new FilterView(), siteMainElement);
 render(new FooterStatisticsView(), siteFooterStatisticsElement);
 
-filmsPresenter.init(siteMainElement, filmsModel, commentsModel);
+filmsPresenter.init();
+
+/*const films = generateFilms();
+const comments = generateComments(films);
+
+console.log(films);
+console.log(comments);*/
