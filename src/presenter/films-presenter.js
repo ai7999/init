@@ -6,7 +6,7 @@ import FilmButtonMoreView from '../view/film-button-more-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import FilmDetailsView from '../view/film-details-view.js';
 import NoFilmView from '../view/no-film-view.js';
-import { render } from '../render.js';
+import { render } from '../framework/render.js';
 import { FILM_COUNT_PER_STEP } from '../const.js';
 
 
@@ -70,16 +70,14 @@ export default class FilmsPresenter {
     if (this.#films.length > FILM_COUNT_PER_STEP) {
       render(this.#filmButtonMoreComponent, this.#filmListComponent.element);
 
-      this.#filmButtonMoreComponent.element.addEventListener('click', this.#handleFilmButtonMoreComponentClick);
+      this.#filmButtonMoreComponent.setButtonMoreClickHandler(this.#filmButtonMoreClickHandler);
     }
   }
 
   #renderFilm = (film, container) => {
     const filmCardComponent = new FilmCardView(film);
 
-    const linkFilmCardElement = filmCardComponent.element.querySelector('a');
-
-    linkFilmCardElement.addEventListener('click', () => {
+    filmCardComponent.setCardClickHandler(() => {
       this.#addFilmDetailsComponent(film);
       document.addEventListener('keydown', this.#onEscKeyDown);
     });
@@ -91,9 +89,7 @@ export default class FilmsPresenter {
     const comments = [...this.#commentsModel.get(film)];
     this.#filmDetailsComponent = new FilmDetailsView(film, comments);
 
-    const closeButtonFilmDetailsElement = this.#filmDetailsComponent.element.querySelector('.film-details__close-btn');
-
-    closeButtonFilmDetailsElement.addEventListener('click', () => {
+    this.#filmDetailsComponent.setCloseButtonHandler(() => {
       this.#removeFilmDetailsComponent();
       document.removeEventListener('keydown', this.#onEscKeyDown);
     });
@@ -121,8 +117,7 @@ export default class FilmsPresenter {
   };
 
   //- По клику будем допоказывать задачи, опираясь на счётчик
-  #handleFilmButtonMoreComponentClick = (evt) => {
-    evt.preventDefault();
+  #filmButtonMoreClickHandler = () => {
     this.#films.slice(this.#renderedFilmCount, this.#renderedFilmCount + FILM_COUNT_PER_STEP)
       .forEach((film) => this.#renderFilm(film, this.#filmListContainerComponent));
 
