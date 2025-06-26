@@ -20,6 +20,10 @@ module.exports = {
         test: /\\.js$/, // Указываем регулярным выражением, что преобразовывать нужно только JavaScript-файлы
         exclude: /(node_modules)/, // Уточняем, что файлы из директории node_modules трогать не нужно
         use: ['babel-loader'] // Указываем, какой лоадер использовать
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader']
       }
     ]
   }
