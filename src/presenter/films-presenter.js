@@ -6,7 +6,7 @@ import FilmButtonMoreView from '../view/film-button-more-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import FilmDetailsView from '../view/film-details-view.js';
 import NoFilmView from '../view/no-film-view.js';
-import { render } from '../render.js';
+import { render } from '../framework/render.js';
 import { FILM_COUNT_PER_STEP } from '../const.js';
 
 
