@@ -1,4 +1,5 @@
-import { getRandomPositiveInteger, getRandomValue, formatStringToDateWithTime } from '../util.js';
+import { getRandomPositiveInteger, getRandomValue } from '../utils/common.js';
+import { formatStringToDateWithTime } from '../utils/film.js';
 import {
   DaysDuration,
   names,

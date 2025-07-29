@@ -3,23 +3,36 @@ import {
   getRandomValue,
   getRandomPositiveInteger,
   getRandomPositiveFloat,
+} from '../utils/common.js';
+
+import {
   formatStringToDate,
-  formatMinutesToTime
-} from '../util.js';
+  formatMinutesToTime,
+} from '../utils/film.js';
+
 import {
   NAME_COUNT, MAX_COMMENTS_ON_FILM, GenreCount, Rating,
   AgeRating, Runtime, YearsDuration, names, surnames,
-  titles, posters, genres, description, countries,
+  titles, posters, genres, description, countries, DateType,
+  DaysDuration
 } from './const.js';
 import { FILM_COUNT } from '../const.js';
 
-const getDate = () => {
+const getDate = (type) => {
   const date = new Date();
 
-  date.setFullYear(
-    date.getFullYear() - getRandomPositiveInteger(YearsDuration.MIN, YearsDuration.MAX)
-  );
-
+  switch (type) {
+    case DateType.FILM_INFO:
+      date.setFullYear(
+        date.getFullYear() - getRandomPositiveInteger(YearsDuration.MIN, YearsDuration.MAX)
+      );
+      break;
+    case DateType.USER_DETAILS:
+      date.setDate(
+        date.getDate() - getRandomPositiveInteger(DaysDuration.MIN, DaysDuration.MAX)
+      );
+      break;
+  }
   return date.toISOString();
 };
 
@@ -49,6 +62,8 @@ const generateFilms = () => {
 
   let totalCommentsCount = 0;
 
+  const getWatchingDate = () => getDate(DateType.USER_DETAILS);
+
   return films.map((film, index) => {
     const hasComments = getRandomPositiveInteger(0, 1);
 
@@ -56,10 +71,23 @@ const generateFilms = () => {
 
     totalCommentsCount += filmCommentsCount;//
 
+    const alreadyWatched = Boolean(getRandomPositiveInteger(0, 1));//
+
     return {
       id: String(index + 1),
       comments: (hasComments) ? Array.from({ length: filmCommentsCount }, (_value, commentIndex) => String(totalCommentsCount - commentIndex)) : [],
       filmInfo: film,
+      /*
+      В этом блоке содержится так называемая мета-информация (служебная, дополнительная) о фильме. Нужно её тоже
+       сгенерировать, для этого перенесёмся в файл /src/mock/film.js и добавим код для генерации данных:
+      */
+      userDetails: {
+        watchList: Boolean(getRandomPositiveInteger(0, 1)),
+        alreadyWatched,
+        watchingDate: (alreadyWatched) ? getWatchingDate() : null,// Мы ведь генерируем данные похожие на настоящие,
+        // а просмотренный фильм без даты просмотра существовать не может.
+        favorite: Boolean(getRandomPositiveInteger(0, 1)),
+      }
     };
   });
 };
