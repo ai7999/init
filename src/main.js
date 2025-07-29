@@ -7,6 +7,8 @@ import FilmsModel from './model/films-model.js';
 import CommentsModel from './model/comments-model.js';
 
 import { render } from './framework/render.js';
+import { getUserStatus } from './utils/user.js';
+import { generateFilter } from './mock/filter.js';
 
 //import { generateFilms } from './mock/film';
 //import { generateComments } from './mock/comment';
@@ -22,9 +24,13 @@ const commentsModel = new CommentsModel(filmsModel);
 
 const filmsPresenter = new FilmsPresenter(siteMainElement, filmsModel, commentsModel);
 
-render(new HeaderProfileView(), siteHeaderElement);
-render(new FilterView(), siteMainElement);
-render(new FooterStatisticsView(), siteFooterStatisticsElement);
+const userStatus = getUserStatus(filmsModel.get());
+const filters = generateFilter(filmsModel.get());
+const filmCount = filmsModel.get().length;
+
+render(new HeaderProfileView(userStatus), siteHeaderElement);
+render(new FilterView(filters), siteMainElement);
+render(new FooterStatisticsView(filmCount), siteFooterStatisticsElement);
 
 filmsPresenter.init();
 
