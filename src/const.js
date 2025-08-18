@@ -25,6 +25,15 @@ const UserStatusTitle = {
   MOVIE_BUFF: 'Movie Buff'
 };
 
+/**5.2.1 Поправит шаблон сортировки
+- Добавляем data-атрибуты, чтобы при клике можно было определить, какой тип сортировки выбрал пользователь
+- Все возможные типы сортировки описываем в константе */
+const SortType = {
+  DEFAULT: 'default',
+  DATE: 'date',
+  RATING: 'rating',
+};
+
 export {
   FILM_COUNT,
   EMOTIONS,
@@ -32,5 +41,6 @@ export {
   FilterType,
   UserStatusTitle,
   UserStatusValue,
-  FILTER_TYPE_ALL_NAME
+  FILTER_TYPE_ALL_NAME,
+  SortType
 };
